@@ -13,17 +13,21 @@ export const getStandUp = async (req, res) => {
 };
 
 export const getStandUpById = async (req, res) => {
+    const qry = {
+        teamMemberId: new mongoose.Types.ObjectId(req.params.teamMemberId)
+    }
 
-   
-  
-    
     try {
-        const standup = await Standup.find({_teamMemberId: mongoose.Types.ObjectId(req.params.teamMemberId)}).sort({ 'createdOn': 'desc' }).exec()
+        const standup = await Standup.find({ 'teamMemberId': qry.teamMemberId })
+            .sort({ 'createdOn': 'desc' })
+            .exec();
 
+        console.log('qry:', qry);
+        console.log('standup:', standup);
         return res.status(200).json(standup);
-
     } catch (error) {
-        return res.status(404).json({ message: error.message });
+        console.error('Error:', error);
+        return res.status(500).json({ message: error.message });
     }
 };
 

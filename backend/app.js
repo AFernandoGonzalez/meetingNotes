@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 
 import { standUpRouter } from './src/routes/standup.js';
 import { teamRouter } from './src/routes/team.js';
+import { projectRouter } from './src/routes/project.js';
 
 import { connectDB } from './src/db/db.js';
 
@@ -21,5 +22,6 @@ app.get('/', (req, res) => {
 
 app.use('/api', standUpRouter);
 app.use('/api', teamRouter);
+app.use('/api', projectRouter);
 
 app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)); 

@@ -1,20 +1,37 @@
+import mongoose from 'mongoose';
 import Standup from '../models/standup.js';
 
 export const getStandUp = async (req, res) => {
     try {
-        const standup = await Standup.find();
+        const standup = await Standup.find().sort({ 'createdOn': 'desc' }).exec()
+
         return res.status(200).json(standup);
+
+    } catch (error) {
+        return res.status(404).json({ message: error.message });
+    }
+};
+
+export const getStandUpById = async (req, res) => {
+
+   
+  
+    
+    try {
+        const standup = await Standup.find({_teamMemberId: mongoose.Types.ObjectId(req.params.teamMemberId)}).sort({ 'createdOn': 'desc' }).exec()
+
+        return res.status(200).json(standup);
+
     } catch (error) {
         return res.status(404).json({ message: error.message });
     }
 };
 
 export const createStandUp = async (req, res) => {
-    const { note } = req.body;
-    const newNote = new Standup(note);
+    const note = new Standup(req.body);
     try {
-        await newNote.save();
-        return res.status(201).json(newNote);
+        await note.save();
+        return res.status(201).json(note);
     } catch (error) {
         return res.status(409).json({ message: error.message });
     }

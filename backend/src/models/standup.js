@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const standupSchema = new mongoose.Schema({
+    teamMemberId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'teamMember',
+    },
     teamMember: {
         type: String,
         required: true

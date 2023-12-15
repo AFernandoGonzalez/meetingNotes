@@ -21,9 +21,6 @@ export const getStandUpById = async (req, res) => {
         const standup = await Standup.find({ 'teamMemberId': qry.teamMemberId })
             .sort({ 'createdOn': 'desc' })
             .exec();
-
-        console.log('qry:', qry);
-        console.log('standup:', standup);
         return res.status(200).json(standup);
     } catch (error) {
         console.error('Error:', error);

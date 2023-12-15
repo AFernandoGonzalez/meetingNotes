@@ -1,8 +1,8 @@
 import axios from "axios";
-
+import { API_URL } from "../constants";
 export const getStandUp = async () => {
     try {
-        const res = await axios.get('http://localhost:8000/api/standup');
+        const res = await axios.get(`${API_URL}/standup`);
         return res.data;
     } catch (error) {
         console.error(error);
@@ -12,7 +12,7 @@ export const getStandUp = async () => {
 
 export const getStandUpByTeamMember = async (teamMemberById) => {
     try {
-        const res = await axios.get(`http://localhost:8000/api/standup/${teamMemberById}`)
+        const res = await axios.get(`${API_URL}/standup/${teamMemberById}`)
         return res.data
     } catch (error) {
         console.error(error);
@@ -21,7 +21,7 @@ export const getStandUpByTeamMember = async (teamMemberById) => {
 
 export const createStandUp = async (newStandUp) => {
     try {
-        const res = await axios.post('http://localhost:8000/api/standup', newStandUp)
+        const res = await axios.post(`${API_URL}/standup`, newStandUp)
         return res.data
     } catch (error) {
         console.error(error);

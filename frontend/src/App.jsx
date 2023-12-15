@@ -1,4 +1,3 @@
-import './App.css'
 import { Modal, Button } from 'react-bootstrap';
 
 import { useState, useEffect } from 'react'

@@ -26,6 +26,9 @@ function App() {
 
   const [showModal, setShowModal] = useState(false);
 
+  const itemsPerPage = 6;
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     const fetchTeamMembers = async () => {
       try {
@@ -107,6 +110,7 @@ function App() {
         workToday: '',
         impediment: ''
       })
+      closeModal();
     } catch (error) {
       console.error(error);
     }
@@ -163,24 +167,37 @@ function App() {
     setShowModal(false);
   };
 
+
+  // Calculate the index of the first and last items on the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = standUpData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(standUpData.length / itemsPerPage);
+  const pageNumbers = Array.from({ length: totalPages });
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className="app container mt-4">
-      <h1 className="text-center display-4 display-md-2 mb-4">Remote Standup Note</h1>
+      <h1 className="text-center font-weight-bold display-4 display-md-2 mb-4">Remote Standup Note</h1>
 
-      <div className='d-flex justify-content-between align-items-center'>
+      <div className='d-flex justify-content-around align-items-center'>
         <div className='' >
-            <TeamFilter
-              teamMembers={teamMembers}
-              teamMemberById={teamMemberById}
-              onTeamMemberFilterChange={onTeamMemberFilterChange}
-            />
-          </div>
+          <TeamFilter
+            teamMembers={teamMembers}
+            teamMemberById={teamMemberById}
+            onTeamMemberFilterChange={onTeamMemberFilterChange}
+          />
+        </div>
         <div className=''>
-            <Button variant="primary" onClick={openModal}>
-              Add Standup
-            </Button>
-          </div>
-        
+          <Button variant="primary" onClick={openModal}>
+            Add Standup
+          </Button>
+        </div>
       </div>
 
       <Modal show={showModal} onHide={closeModal}>
@@ -201,7 +218,22 @@ function App() {
         </Modal.Body>
       </Modal>
 
-      <StandUpList standUpData={standUpData} />
+      <StandUpList currentItems={currentItems} />
+
+      <div className="d-flex justify-content-center">
+        <nav>
+          <ul className="pagination">
+            {pageNumbers.map((_, index) => (
+              <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                <button className="page-link" onClick={() => handlePageChange(index + 1)}>
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
     </div>
   )
 }

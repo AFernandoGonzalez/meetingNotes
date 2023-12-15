@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export const TeamFilter = ({ teamMembers, teamMemberById, onTeamMemberFilterChange }) => {
-    const [filterTeamMemberById, setFilterTeamMemberById] = useState('');
+    // const [filterTeamMemberById, setFilterTeamMemberById] = useState('');
 
     return (
         <div className="">
@@ -12,7 +12,7 @@ export const TeamFilter = ({ teamMembers, teamMemberById, onTeamMemberFilterChan
                 className="form-select tw-w-full tw-py-2 tw-px-3 tw-border tw-rounded tw-bg-gray-200"
                 // Bootstrap form-select class and Tailwind styles for width, padding, border, and background color
                 onChange={onTeamMemberFilterChange}
-                value={filterTeamMemberById}
+                value={teamMemberById}
             >
                 <option value="">Select a team member</option>
                 <option value="all">All team members</option>

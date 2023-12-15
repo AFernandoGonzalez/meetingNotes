@@ -90,9 +90,10 @@ export function StandUpForm({
                         type="text"
                         className="form-control"
                         onChange={onInputChange}
-                        value={formData.impediment}
+                        value={formData.impediment || 'None'}
                         name="impediment"
                         id="impediment"
+                        disabled
                     />
                 </div>
 

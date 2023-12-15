@@ -5,7 +5,7 @@ export const getTeamMembers = async () => {
         const res = await axios.get('http://localhost:8000/api/team')
         return res.data
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 

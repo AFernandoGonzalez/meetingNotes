@@ -28,6 +28,12 @@ function App() {
 
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = standUpData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(standUpData.length / itemsPerPage);
+  const pageNumbers = Array.from({ length: totalPages });
 
   useEffect(() => {
     const fetchTeamMembers = async () => {
@@ -57,7 +63,6 @@ function App() {
       const fetchStandUpByTeamMember = async () => {
         try {
           const data = await getStandUpByTeamMember(teamMemberById)
-          console.log("Fetched data:", teamMemberById, data);
           setStandUpData(data)
         } catch (error) {
           console.error(error);
@@ -68,7 +73,6 @@ function App() {
       const fetchStandUp = async () => {
         try {
           const data = await getStandUp()
-          console.log("Fetched data:", data);
           setStandUpData(data)
         } catch (error) {
           console.error(error);
@@ -80,17 +84,15 @@ function App() {
 
   const onCreateStandUp = async (e) => {
     e.preventDefault();
-    // Validate form fields
     if (!formData.teamMemberById || !formData.projectId || !formData.workYesterday || !formData.workToday) {
-      // Show an error message to the user
       console.error('Fill out all required fields');
       return;
     }
 
     const newStandUp = {
-      teamMemberId: formData.teamMemberById, // need the teamMemberId
+      teamMemberId: formData.teamMemberById,
       teamMember: formData.teamMember,
-      projectId: formData.projectId, // need the projectId
+      projectId: formData.projectId,
       project: formData.project,
       workYesterday: formData.workYesterday,
       workToday: formData.workToday,
@@ -99,7 +101,6 @@ function App() {
 
     try {
       const data = await createStandUp(newStandUp)
-      console.log("Created data:", data);
       setStandUpData((prevStandUpData) => [...prevStandUpData, data]);
       setFormData({
         teamMemberById: '',
@@ -151,7 +152,6 @@ function App() {
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
-    // Update form data for input fields
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -167,16 +167,6 @@ function App() {
     setShowModal(false);
   };
 
-
-  // Calculate the index of the first and last items on the current page
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = standUpData.slice(indexOfFirstItem, indexOfLastItem);
-
-  const totalPages = Math.ceil(standUpData.length / itemsPerPage);
-  const pageNumbers = Array.from({ length: totalPages });
-
-  // Handle page change
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };

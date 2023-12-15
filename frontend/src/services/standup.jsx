@@ -15,7 +15,7 @@ export const getStandUpByTeamMember = async (teamMemberById) => {
         const res = await axios.get(`http://localhost:8000/api/standup/${teamMemberById}`)
         return res.data
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
@@ -24,6 +24,6 @@ export const createStandUp = async (newStandUp) => {
         const res = await axios.post('http://localhost:8000/api/standup', newStandUp)
         return res.data
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }

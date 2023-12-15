@@ -5,6 +5,6 @@ export const getProjects = async () => {
         const res = await axios.get('http://localhost:8000/api/projects')
         return res.data
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
